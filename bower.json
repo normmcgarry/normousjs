@@ -5,7 +5,10 @@
 	"test",
 	".jshintrc",
 	"Gruntfile.js",
-	"config.js"
+	"app/config.js",
+	".editorconfig",
+	".gitignore",
+	"index.htm"
   ],
   "dependencies": {
     "requirejs": "~2.1.5",
