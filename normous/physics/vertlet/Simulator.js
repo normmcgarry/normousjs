@@ -47,7 +47,7 @@ define([
 				// ground friction
 				if (particles[i].position.y >= this.height-1 && velocity.length2() > 0.000001) {
 					var m = velocity.length();
-					velocity.x /= m;
+					velocity.x /= m; 
 					velocity.y /= m;
 					velocity.imultiply(m*this.groundFriction);
 				}
