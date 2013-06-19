@@ -46,9 +46,9 @@ module.exports = function(grunt) {
       },
       app: {
         options: {
-          jshintrc: 'app/.jshintrc'
+          jshintrc: 'normous/.jshintrc'
         },
-        src: ['app/**/*.js']
+        src: ['normous/**/*.js']
       },
       test: {
         options: {
@@ -75,7 +75,7 @@ module.exports = function(grunt) {
       compile: {
         options: {
           name: 'config',
-          mainConfigFile: 'app/config.js',
+          mainConfigFile: 'normous/config.js',
           out: '<%= concat.dist.dest %>',
           optimize: 'none'
         }

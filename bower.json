@@ -1,14 +1,16 @@
 {
   "name": "normousjs",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "ignore":[
 	"test",
 	".jshintrc",
+	"normous/.jshintrc",
 	"Gruntfile.js",
-	"app/config.js",
+	"normous/config.js",
 	".editorconfig",
 	".gitignore",
-	"index.htm"
+	"index.htm",
+	"package.json"
   ],
   "dependencies": {
     "requirejs": "~2.1.5",
