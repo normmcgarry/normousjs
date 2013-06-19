@@ -1,7 +1,6 @@
 
-
 define([
-    'Normous', 'normous/Object', 'normous/math/Vector2', 'normous/physics/PinConstraint'
+    'normous/Normous', 'normous/Object', 'normous/math/Vector2', 'normous/physics/PinConstraint'
 ], function() {
     Normous.namespace("Normous.Physics.Composite");
     

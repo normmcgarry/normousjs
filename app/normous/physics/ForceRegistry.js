@@ -1,6 +1,6 @@
 
 define([
-    'Normous', 'normous/Object', 'normous/physics/ForceRegistration'
+    'normous/Normous', 'normous/Object', 'normous/physics/ForceRegistration'
 ], function() {
     Normous.namespace("Normous.Physics.ForceRegistry");
     

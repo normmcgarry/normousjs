@@ -1,6 +1,6 @@
 
 define([
-    'Normous', 'normous/Object', 'normous/math/Vector2'
+    'normous/Normous', 'normous/Object', 'normous/math/Vector2'
 ], function() {
     Normous.namespace("Normous.Physics.Forces.GravityGenerator");
 

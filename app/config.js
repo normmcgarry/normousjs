@@ -4,7 +4,7 @@ require.config({
 });
 
 if (!window.requireTestMode) {
-  require(['Normous'], function(){ });
+  require(['normous/Normous'], function(){ });
 }
 
 

@@ -113,7 +113,6 @@ define([
         return x*x + y*y;
     };
     
-    
     Normous.Math.Vector2.prototype.clone = function() {
         return new Normous.Math.Vector2({
             x: this.x,
@@ -158,6 +157,11 @@ define([
     Normous.Math.Vector2.prototype.reset = function(x, y) {
         this.x = x;
         this.y = y;
+    };
+    
+    Normous.Math.Vector2.prototype.set = function(point) {
+        this.x = point.x;
+        this.y = .pointy;
     };
     
     Normous.Math.Vector2.prototype.blend = function(point, percent) {

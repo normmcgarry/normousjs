@@ -1,5 +1,5 @@
 define([
-    'Normous'
+    'normous/Normous'
 ], function() {
     
     /*global Normous:false */
