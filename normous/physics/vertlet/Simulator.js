@@ -12,7 +12,7 @@ define([
 		this.constraints = [];
 		this.gravity = new Normous.Math.Vector2();
 		this.parent(config);
-	});
+	};
 	Normous.Object.inherit(Normous.Physics.Vertlet.Simulator, Normous.Object);
 	
 	Normous.Physics.Vertlet.Composite.prototype.composites = null;
@@ -60,16 +60,20 @@ define([
 		var stepCoef = 1/this.steps;
 		for (c in this.composites) {
 			var constraints = this.composites[c].constraints;
-			for (i=0;i<this.steps;++i)
-				for (j in constraints)
+			for (i=0;i<this.steps;++i) {
+				for (j in constraints) {
 					constraints[j].relax(stepCoef);
+				}
+			}
 		}
 		
 		for (c in this.composites) {
 			var particles = this.composites[c].particles;
-			for (i=0;i<this.steps;++i)
-				for (j in constraints)
+			for (i=0;i<this.steps;++i) {
+				for (j in constraints) {
 					constraints[j].relax(stepCoef);
+				}
+			}
 		}
 		
 

@@ -11,7 +11,8 @@ define([
 		this.particles = [];
 		this.constraints = [];
 		this.parent(config);
-	});
+	};
+	
 	Normous.Object.inherit(Normous.Physics.Vertlet.Composite, Normous.Object);
 	
 	Normous.Physics.Vertlet.Composite.prototype.particles = null;
