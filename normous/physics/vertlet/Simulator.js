@@ -30,7 +30,7 @@ define([
 	Normous.Physics.Vertlet.Simulator.prototype.removeComposite = function(composite) {
 		var index = this.composites.indexOf(composite);
 		if(index != -1) {
-			this.composites.splice(, 1);
+			this.composites.splice(index, 1);
 		}
 	};
 	
