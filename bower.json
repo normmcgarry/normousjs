@@ -1,9 +1,17 @@
 {
   "name": "normousjs",
-  "version": "0.0.1",
+  "version": "0.0.3",
+  "ignore":[
+	"test",
+	".jshintrc",
+	"Gruntfile.js",
+	"config.js"
+  ],
   "dependencies": {
     "requirejs": "~2.1.5",
     "jquery": ">= 1.8.0",
+  },
+  "devDependencies": {
     "qunit": "~1.11.0"
   }
 }
