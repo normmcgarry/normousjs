@@ -9,12 +9,9 @@ define([
         this.parent(config);
         this.position = new Normous.Math.Vector2(config);
         this.previous = new Normous.Math.Vector2(config);
-        this.forceAccumulation = new Normous.Math.Vector2();
-        this.velocity = new Normous.Math.Vector2();
-        this.acceleration = new Normous.Math.Vector2();
-        
         if(this.mass) {
             this.setMass(this.mass);
+			this.mass = null;
         }
     };
     Normous.Object.inherit(Normous.Physics.Particle, Normous.Object);

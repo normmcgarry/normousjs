@@ -26,4 +26,7 @@ define([
 		this.constraints.push(constraint);
 	};
 	
+	Normous.Physics.Vertlet.Composite.prototype.update = function() {
+	};
+	
 });

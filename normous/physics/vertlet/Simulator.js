@@ -15,19 +15,26 @@ define([
 	};
 	Normous.Object.inherit(Normous.Physics.Vertlet.Simulator, Normous.Object);
 	
-	Normous.Physics.Vertlet.Composite.prototype.composites = null;
-	Normous.Physics.Vertlet.Composite.prototype.width = 1;
-	Normous.Physics.Vertlet.Composite.prototype.height = 1;
-	Normous.Physics.Vertlet.Composite.prototype.friction = 0.99;
-	Normous.Physics.Vertlet.Composite.prototype.groundFriction = 0.8;
-	Normous.Physics.Vertlet.Composite.prototype.gravity = null;
-	Normous.Physics.Vertlet.Composite.prototype.steps = 15;
+	Normous.Physics.Vertlet.Simulator.prototype.composites = null;
+	Normous.Physics.Vertlet.Simulator.prototype.width = 1;
+	Normous.Physics.Vertlet.Simulator.prototype.height = 1;
+	Normous.Physics.Vertlet.Simulator.prototype.friction = 0.99;
+	Normous.Physics.Vertlet.Simulator.prototype.groundFriction = 0.8;
+	Normous.Physics.Vertlet.Simulator.prototype.gravity = null;
+	Normous.Physics.Vertlet.Simulator.prototype.steps = 15;
 	
-	Normous.Physics.Vertlet.Composite.prototype.addComposite = function(composite) {
+	Normous.Physics.Vertlet.Simulator.prototype.addComposite = function(composite) {
 		this.composites.push(composite);
 	};
 	
-	Normous.Physics.Vertlet.Composite.prototype.update = function(steps) {
+	Normous.Physics.Vertlet.Simulator.prototype.removeComposite = function(composite) {
+		var index = this.composites.indexOf(composite);
+		if(index != -1) {
+			this.composites.splice(, 1);
+		}
+	};
+	
+	Normous.Physics.Vertlet.Simulator.prototype.update = function(steps) {
 		var i, j, c, step;
 		
 		for (c in this.composites) {
@@ -56,6 +63,10 @@ define([
 			}
 		}
 		
+		for (c in this.composites) {
+			this.composites[c].update();
+		}
+
 		// relax
 		var stepCoef = 1/this.steps;
 		for (c in this.composites) {
@@ -76,10 +87,9 @@ define([
 			}
 		}
 		
-
 	};
 	
-	Normous.Physics.Vertlet.Composite.prototype._checkBounds = function(particle) {
+	Normous.Physics.Vertlet.Simulator.prototype._checkBounds = function(particle) {
 		if (particle.pos.y > this.height-1)
 			particle.pos.y = this.height-1;
 
