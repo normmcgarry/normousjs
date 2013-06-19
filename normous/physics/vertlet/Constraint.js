@@ -7,12 +7,15 @@ define([
     
     Normous.Physics.Vertlet.Constraint = function(config) {
         this.parent(config);
+		if(this.distance == null) {
+			this.distance = this.point1.position.distance(this.point2.position);
+		}
     };
     Normous.Object.inherit(Normous.Physics.Vertlet.Constraint, Normous.Object);
     
     Normous.Physics.Vertlet.Constraint.prototype.point1 = null;
     Normous.Physics.Vertlet.Constraint.prototype.point2 = null;
-    Normous.Physics.Vertlet.Constraint.prototype.distance = 1;
+    Normous.Physics.Vertlet.Constraint.prototype.distance = null;
     Normous.Physics.Vertlet.Constraint.prototype.stiffness = 1;
     Normous.Physics.Vertlet.Constraint.prototype.enabled = true;
     
