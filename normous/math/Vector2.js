@@ -1,6 +1,6 @@
 
 define([
-    'Normous', 'normous/Object'
+    'normous/Normous', 'normous/Object'
 ], function() {
     Normous.namespace("Normous.Math.Vector2");
     

@@ -1,5 +1,5 @@
 define([
-    'Normous', 'normous/Object', 'normous/events/EventDispatcher'
+    'normous/Normous', 'normous/Object', 'normous/events/EventDispatcher'
 ], function() {
     Normous.namespace("Normous.Mvc.ViewModel");
 

@@ -1,5 +1,5 @@
 define([
-    'Normous', 'normous/Object'
+    'normous/Normous', 'normous/Object'
 ], function() {
     /*global Normous:false */
     Normous.namespace('Normous.Logger');

@@ -1,5 +1,5 @@
 define([
-    'Normous', 'normous/Object', 'normous/mvc/ViewModel',
+    'normous/Normous', 'normous/Object', 'normous/mvc/ViewModel',
 ], function() {
     /*global Normous:false */
     Normous.namespace("Normous.Loader.Image");

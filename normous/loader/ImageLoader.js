@@ -1,5 +1,5 @@
 define([
-    'Normous', 'normous/Object', 'normous/events/EventDispatcher', 'normous/Logger'
+    'normous/Normous', 'normous/Object', 'normous/events/EventDispatcher', 'normous/Logger'
 ], function() {
     /*global Normous:false */
     Normous.namespace("Normous.Loader.ImageLoader");

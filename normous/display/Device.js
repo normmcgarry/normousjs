@@ -1,5 +1,5 @@
 define([
-    'Normous', 'normous/Object', 'normous/events/EventDispatcher'
+    'normous/Normous', 'normous/Object', 'normous/events/EventDispatcher'
 ], function() {
     /*global Normous:false */
     Normous.namespace("Normous.Display.Device");
