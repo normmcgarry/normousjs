@@ -15,7 +15,7 @@ define([
     
     Normous.Physics.Simulator.prototype.globalForces = null;
     Normous.Physics.Simulator.prototype.composites = null;
-    Normous.Physics.Simulator.prototype.steps = 15;
+    Normous.Physics.Simulator.prototype.steps = 3;
     
     Normous.Physics.Simulator.prototype.width = 0;
     Normous.Physics.Simulator.prototype.height = 0;
@@ -86,7 +86,6 @@ define([
                 particle.integrate(delta);
             }
         }
-        
         
         // check the bounds
         for(c = 0; c < this.composites.length; c++) {

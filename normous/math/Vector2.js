@@ -20,6 +20,15 @@ define([
         return (this.x === point.x && this.y === point.y);
     };
     
+    
+    Normous.Math.Vector2.prototype.dot = function(point) {
+        return this.x * point.x + this.y * point.y;
+    };
+	
+    Normous.Math.Vector2.prototype.cross = function(point) {
+        return this.x * point.y + this.y * point.x;
+    };
+	
     Normous.Math.Vector2.prototype.isubtract = function(point) {
         this.x -= point.x;
         this.y -= point.y;
@@ -49,6 +58,7 @@ define([
     Normous.Math.Vector2.prototype.imultiply = function(scalar) {
         this.x *= scalar;
         this.y *= scalar;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.multiply = function(scalar) {
@@ -57,11 +67,10 @@ define([
             y: this.y * scalar
         });
     };
-    
-    
     Normous.Math.Vector2.prototype.idivide = function(scalar) {
         this.x /= scalar;
         this.y /= scalar;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.divide = function(scalar) {
@@ -77,11 +86,8 @@ define([
         if(length > 0){
             return new Normous.Math.Vector2({x: x/length, y: y/length});
         }
-        else{
-            return new Normous.Math.Vector2({x: 0, y: 0});
-        }
+        return new Normous.Math.Vector2({x: 0, y: 0});
     };
-    
     
     Normous.Math.Vector2.prototype.normalize = function() {
         var x=this.x, y=this.y;
@@ -123,6 +129,7 @@ define([
     Normous.Math.Vector2.prototype.zero = function() {
         this.x = 0;
         this.y = 0;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.getAngle = function() {
@@ -146,27 +153,37 @@ define([
         
         this.x = x;
         this.y = y;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.rotate = function(origin, theta) {
         var x = this.x - origin.x;
         var y = this.y - origin.y;
-        return new Vec2(x*Math.cos(theta) - y*Math.sin(theta) + origin.x, x*Math.sin(theta) + y*Math.cos(theta) + origin.y);
+        return new Normous.Math.Vector2({x:x*Math.cos(theta) - y*Math.sin(theta) + origin.x, y:x*Math.sin(theta) + y*Math.cos(theta) + origin.y});
     };
     
     Normous.Math.Vector2.prototype.reset = function(x, y) {
         this.x = x;
         this.y = y;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.set = function(point) {
         this.x = point.x;
-        this.y = .pointy;
+        this.y = point.y;
+        return this;
     };
     
     Normous.Math.Vector2.prototype.blend = function(point, percent) {
         if(!percent) percent = 0.5;
         this.x += (point.x - this.x) * percent;
         this.y += (point.y - this.y) * percent;
+        return this;
     };
+	
+    Normous.Math.Vector2.prototype.toString = function() {
+		return "{x:" + this.x + ",y:" + this.y + "}";
+	};
+	
+	
 });

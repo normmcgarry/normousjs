@@ -8,7 +8,7 @@ define([
     Normous.Physics.Vertlet.Constraint = function(config) {
         this.parent(config);
 		if(this.distance == null) {
-			this.distance = this.point1.position.distance(this.point2.position);
+			this.distance = this.point1.position.subtract(this.point2.position).length();
 		}
     };
     Normous.Object.inherit(Normous.Physics.Vertlet.Constraint, Normous.Object);
@@ -24,9 +24,16 @@ define([
             return;
         }
         var normal = this.point1.position.subtract(this.point2.position);
-        var m = normal.length2();
-		normal.imultiply(((this.distance*this.distance - m)/m)*this.stiffness*stepCoef);
-        this.point1.position.iadd(normal);
-        this.point2.position.isubtract(normal);
+        var m = normal.length();
+		m = Math.abs(m - this.distance);
+		m *= this.stiffness;
+		normal.normalize();
+		normal.imultiply(-m);
+		this.point1.addForce(normal);
     };
+	
+	Normous.Physics.Vertlet.Constraint.prototype.toString = function() {
+		return "{Constraint}";
+	};
+	
 });

@@ -29,4 +29,8 @@ define([
 	Normous.Physics.Vertlet.Composite.prototype.update = function() {
 	};
 	
+	Normous.Physics.Vertlet.Composite.prototype.toString = function() {
+		return "{Constraint particles:" + this.particles.length + ", constraints:" + this.constraints.length + "}";
+	};
+	
 });
