@@ -8,7 +8,7 @@ define([
 	
 	
 	Normous.Physics.Twod.Force = function(config) {
-		this.parent(config);
+		this._super(config);
 		this.value = new Normous.Math.Vector2(this.x, this.y);
 	};
 	

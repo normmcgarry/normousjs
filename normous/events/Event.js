@@ -5,7 +5,7 @@ define([
     Normous.namespace("Normous.Events.Event");
     
     Normous.Events.Event = function(config) {
-        this.parent(config);
+        this._super(config);
     };
     Normous.Object.inherit(Normous.Events.Event, Normous.Object);
     

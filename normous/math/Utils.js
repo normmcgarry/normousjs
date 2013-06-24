@@ -21,4 +21,12 @@ define([
 		return 1;
 	};
 	
+	Normous.Math.Utils.toRadians = function(deg) {
+		return deg * Normous.Math.Utils.PI_OVER_ONE_EIGHTY;
+	};
+	
+	Normous.Math.Utils.toDegrees = function(rad) {
+		return rad * Normous.Math.Utils.ONE_EIGHTY_OVER_PI;
+	};
+	
 });

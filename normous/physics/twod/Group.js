@@ -8,7 +8,7 @@ define([
 	Normous.Physics.Twod.Group = function(config) {
 		this.composites = new Array();
 		this.collisionList = new Array();
-		this.parent(config);
+		this._super(config);
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.Group, Normous.Physics.Twod.AbstractCollection);
@@ -19,7 +19,7 @@ define([
 	
 	
 	Normous.Physics.Twod.Group.prototype.init = function() {
-		this.parent('init');
+		this._super('init');
 		for(var i = 0; i < this.composites.length; i++) {
 			this.composites[i].init();
 		}
@@ -28,6 +28,7 @@ define([
 	Normous.Physics.Twod.Group.prototype.addComposite = function(composite) {		
 		this.composites.push(composite);
 		composite.isParented = true;
+		composite.parent = this;
 		if(this.isParented) composite.init();
 		this.drawable.addChild(composite);
 	};
@@ -37,12 +38,13 @@ define([
 		if(index == -1) return;
 		this.drawable.removeChild(composite);
 		this.composites.splice(index, 1);
+		composite.parent = null;
 		composite.isParented = false;
 		composite.cleanup();
 	};
 	
 	Normous.Physics.Twod.Group.prototype.paint = function() {
-		this.parent('paint');
+		this._super('paint');
 		for(var i = 0; i < this.composites.length; i++) {
 			this.composites[i].paint();
 		}
@@ -79,23 +81,23 @@ define([
 	};
 	
 	Normous.Physics.Twod.Group.prototype.cleanup = function() {
-		this.parent('cleanup');
+		this._super('cleanup');
 		for (var i = 0; i < this.composites.length; i++) {
 			this.composites[i].cleanup();   
 		}
 	};
 	
 	Normous.Physics.Twod.Group.prototype.integrate = function(dt2) {
-		this.parent('integrate', dt2);
+		this._super('integrate', dt2);
 		for (var i = 0; i < this.composites.length; i++) {
 			this.composites[i].integrate(dt2);
 		}
 	};
 	
-	Normous.Physics.Twod.Group.prototype.satisfyConstraints = function() {
-		this.parent('satisfyConstraints');
+	Normous.Physics.Twod.Group.prototype.satisfyConstraints = function(stepCoefficient) {
+		this._super('satisfyConstraints', stepCoefficient);
 		for (var i = 0; i < this.composites.length; i++) {
-			this.composites[i].satisfyConstraints();
+			this.composites[i].satisfyConstraints(stepCoefficient);
 		}
 	};
 	

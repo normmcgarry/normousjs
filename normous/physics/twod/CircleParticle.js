@@ -14,7 +14,7 @@ define([
 	Normous.Physics.Twod.CircleParticle = function(config) {
 		if(config == null) config = {};
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsCircle({item:this, drawableProperties: config.drawableProperties});
-		this.parent(config);
+		this._super(config);
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.CircleParticle, Normous.Physics.Twod.AbstractParticle);

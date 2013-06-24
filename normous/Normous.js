@@ -1,7 +1,7 @@
-
 var Normous = Normous || {};
 Normous.Utils = Normous.Utils || {};
-Normous.global = window;
+Normous.global = this;
+Normous.global.Normous = Normous;
 
 Normous.namespace = function(name) {
 	if (Normous.isNamespace(name)) {

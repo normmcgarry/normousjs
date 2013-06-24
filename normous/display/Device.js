@@ -6,7 +6,7 @@ define([
     
     
     Normous.Display.Device = function(config) {
-        this.parent(config);
+        this._super(config);
         this.init();
     };
     Normous.Object.inherit(Normous.Display.Device, Normous.Events.EventDispatcher);

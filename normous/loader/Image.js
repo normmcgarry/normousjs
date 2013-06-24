@@ -6,7 +6,7 @@ define([
     
     Normous.Loader.Image = function(config) {
         this.element = new Image();
-        this.parent(config);
+        this._super(config);
         this.init();
     };
     Normous.Object.inherit(Normous.Loader.Image, Normous.Mvc.ViewModel);

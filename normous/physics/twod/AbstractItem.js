@@ -7,7 +7,7 @@ define([
 	
 	Normous.Physics.Twod.AbstractItem = function(config) {
 		this.drawableProperties = {};
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.AbstractItem, Normous.Events.EventDispatcher);
 	

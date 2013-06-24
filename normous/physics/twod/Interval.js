@@ -6,7 +6,7 @@ define([
 	Normous.namespace("Normous.Physics.Twod.Interval");
 	
 	Normous.Physics.Twod.Interval = function(config) {
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Interval, Normous.Object);
 	

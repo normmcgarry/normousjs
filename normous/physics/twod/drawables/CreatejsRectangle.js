@@ -12,7 +12,7 @@ define([
 			lineColor: "rgba(0,255,0,0.5)",
 			fillColor: "rgba(255,0,0,0.2)"
 		};
-		this.parent(config);
+		this._super(config);
 		this.drawableProperties = Normous.extend(drawableProperties, config.drawableProperties);
 		this.element = new createjs.Shape();
 	};

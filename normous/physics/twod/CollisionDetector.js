@@ -10,7 +10,7 @@ define([
 	Normous.namespace("Normous.Physics.Twod.CollisionDetector");
 	
 	Normous.Physics.Twod.CollisionDetector = function(config) {
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.CollisionDetector, Normous.Object);
 	

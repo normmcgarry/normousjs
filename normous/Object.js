@@ -51,7 +51,13 @@ define([
         };
     };
     
-    Normous.Object.prototype.parent = function(methodName, args) {
+    Normous.Object.ChildClass = function() {
+        return function(config) {
+            this._super(config);
+        };
+    };
+    
+    Normous.Object.prototype._super = function(methodName, args) {
         var caller = arguments.callee.caller;
         if (caller._parent) {
             // This is a constructor. Call the parentclass constructor.

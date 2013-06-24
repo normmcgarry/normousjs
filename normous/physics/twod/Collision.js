@@ -8,7 +8,7 @@ define([
 	Normous.Physics.Twod.Collision = function(config) {
 		this.vn = new Normous.Math.Vector2();
 		this.vx = new Normous.Math.Vector2();
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Collision, Normous.Object);
 	

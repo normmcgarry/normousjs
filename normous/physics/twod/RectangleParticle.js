@@ -14,7 +14,7 @@ define([
 	Normous.Physics.Twod.RectangleParticle = function(config) {
 		if(config == null) config = {};
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsRectangle({item:this, drawableProperties: config.drawableProperties});
-		this.parent(config);
+		this._super(config);
 		this.extents = new Array(this.width/2, this.height/2);
 		this.axes  = new Array(new Normous.Math.Vector2(), new Normous.Math.Vector2());
 		this.setRadian(this.rotation);

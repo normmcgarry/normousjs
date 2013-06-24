@@ -6,7 +6,7 @@ define([
 	Normous.namespace("Normous.Physics.Twod.Drawables");
 	
 	Normous.Physics.Twod.Drawable = function(config) {
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Drawable, Normous.Object);
 	

@@ -28,7 +28,7 @@ define([
 			vx: new Normous.Math.Vector2()
 		});
 		
-		this.parent(config);
+		this._super(config);
 		this.previous = this.position.clone();
 		
 		if(config.x) {
@@ -61,6 +61,9 @@ define([
 	Normous.Physics.Twod.AbstractParticle.prototype.sample;
 	/** @type Interval */
 	Normous.Physics.Twod.AbstractParticle.prototype.interval;
+	/** @type Interval */
+	Normous.Physics.Twod.AbstractParticle.prototype.parent;
+	
 	
 	/** @type Vector2 */
 	Normous.Physics.Twod.AbstractParticle.prototype._temp;
@@ -180,17 +183,17 @@ define([
 		return this._inverseMass;
 	};
 	
-	Normous.Physics.Twod.AbstractParticle.prototype.testParticleEvents = function(particle) {
-		this.dispatchEvent(new Normous.Physics.Twod.CollisionEvent({type: Normous.Physics.Twod.CollisionEvent.COLLIDE, collidingItem: particle}));
+	Normous.Physics.Twod.AbstractParticle.prototype.testParticleEvents = function(particle, normal, mtd, o) {
+		this.dispatchEvent(new Normous.Physics.Twod.CollisionEvent({type: Normous.Physics.Twod.CollisionEvent.COLLIDE, item: this, o:o, collidingItem: particle, normal: normal, mtd: mtd}));
 		
 		if (!this.firstCollision) {
 			this.firstCollision = true;
-			this.dispatchEvent(new Normous.Physics.Twod.CollisionEvent({type:Normous.Physics.Twod.CollisionEvent.FIRST_COLLIDE, collidingItem: particle}));
+			this.dispatchEvent(new Normous.Physics.Twod.CollisionEvent({type:Normous.Physics.Twod.CollisionEvent.FIRST_COLLIDE, item: this, o:o, collidingItem: particle, normal: normal, mtd: mtd}));
 		}
 	};
 	
 	Normous.Physics.Twod.AbstractParticle.prototype.resolveCollision = function(mtd, velocity, normal, damping, o, particle) {
-		this.testParticleEvents(particle);
+		this.testParticleEvents(particle, normal, mtd, o);
 		if(this.fixed || !this.solid || !particle.solid) {
 			return;
 		}
