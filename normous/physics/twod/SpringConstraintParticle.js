@@ -7,7 +7,7 @@ define([
 	Normous.namespace("Normous.Physics.Twod.SpringConstraintParticle");
 	
 	Normous.Physics.Twod.SpringConstraintParticle = function(config) {
-		this.parent(config);
+		this._super(config);
 		
 		this.lambda = new Normous.Math.Vector2();
 		this.averageVelocity = new Normous.Math.Vector2();

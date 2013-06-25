@@ -14,7 +14,7 @@ define([
 	Normous.Physics.Twod.RectangleParticle = function(config) {
 		if(config == null) config = {};
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsRectangle({item:this, drawableProperties: config.drawableProperties});
-		this.parent(config);
+		this._super(config);
 		this.extents = new Array(this.width/2, this.height/2);
 		this.axes  = new Array(new Normous.Math.Vector2(), new Normous.Math.Vector2());
 		this.setRadian(this.rotation);
@@ -79,4 +79,27 @@ define([
 		this.axes[1].x = -s;
 		this.axes[1].y = c;
 	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.setWidth = function(width) {
+		this.width = width;
+		this.extents = new Array(this.width/2, this.height/2);
+		this.setRadian(this.rotation);
+		this.drawable.paint();
+	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.setHeight = function(height) {
+		this.height = height;
+		this.extents = new Array(this.width/2, this.height/2);
+		this.setRadian(this.rotation);
+		this.drawable.paint();
+	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.getWidth = function() {
+		return this.width;
+	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.getHeight = function() {
+		return this.height;
+	};
+	
 });

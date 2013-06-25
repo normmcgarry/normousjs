@@ -5,7 +5,7 @@ define([
     Normous.namespace("Normous.Display.Mouse");
     
     var Normous.Display.Mouse = function(config) {
-        this.parent(config);
+        this._super(config);
     };
     Normous.Object.inherit(Normous.Display.Mouse, Normous.Object);
     Normous.Singleton.createSingleton(Normous.Display.Mouse);

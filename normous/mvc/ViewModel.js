@@ -4,7 +4,7 @@ define([
     Normous.namespace("Normous.Mvc.ViewModel");
 
     Normous.Mvc.ViewModel = function(config) {
-        this.parent(config);
+        this._super(config);
     };
     
     Normous.Object.inherit(Normous.Mvc.ViewModel, Normous.Events.EventDispatcher);

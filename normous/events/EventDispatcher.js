@@ -6,7 +6,7 @@ define([
     
     Normous.Events.EventDispatcher = function(config) {
         this._listeners = [];
-        this.parent(config);
+        this._super(config);
     };
     Normous.Object.inherit(Normous.Events.EventDispatcher, Normous.Object);
     
@@ -48,6 +48,8 @@ define([
     };
     
     Normous.Events.EventDispatcher.prototype.dispatchEvent = function(type, target) {
+		var originalArguments = Normous.extend([], arguments);
+		
         var numOfListeners = 0;
         var event = type || {};
         if (Normous.Utils.typeOf(type) === 'string') {
@@ -76,6 +78,10 @@ define([
                 }
             }
         }
+		
+		if(event.bubbles && this.parent && this.parent.dispatchEvent) {
+			this.parent.dispatchEvent.apply(this.parent, originalArguments);
+		}
     };
     
 });

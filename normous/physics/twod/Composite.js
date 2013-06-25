@@ -9,7 +9,7 @@ define([
 	
 	Normous.Physics.Twod.Composite = function(config) {
 		this.delta = new Normous.Math.Vector2();
-		this.parent(config);
+		this._super(config);
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Composite, Normous.Physics.Twod.AbstractCollection);
 	

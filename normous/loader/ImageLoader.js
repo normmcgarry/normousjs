@@ -6,7 +6,7 @@ define([
     
     Normous.Loader.ImageLoader = function(config) {
         this._images = [];
-        this.parent(config);
+        this._super(config);
         this.init();
     };
     Normous.Object.inherit(Normous.Loader.ImageLoader, Normous.Events.EventDispatcher);

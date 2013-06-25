@@ -5,7 +5,7 @@ define([
     Normous.namespace("Normous.Math.Vector2");
     
     Normous.Math.Vector2 = function(config) {
-        this.parent(config);
+        this._super(config);
         if(isNaN(this.x)) 
             this.x = 0;
         if(isNaN(this.y)) 
@@ -162,6 +162,14 @@ define([
         return new Normous.Math.Vector2({x:x*Math.cos(theta) - y*Math.sin(theta) + origin.x, y:x*Math.sin(theta) + y*Math.cos(theta) + origin.y});
     };
     
+    Normous.Math.Vector2.prototype.irotate = function(origin, theta) {
+        var x = this.x - origin.x;
+        var y = this.y - origin.y;
+		this.x = x*Math.cos(theta) - y*Math.sin(theta) + origin.x;
+		this.y = x*Math.sin(theta) + y*Math.cos(theta) + origin.y;
+		return this;
+    };
+    
     Normous.Math.Vector2.prototype.reset = function(x, y) {
         this.x = x;
         this.y = y;
@@ -174,11 +182,21 @@ define([
         return this;
     };
     
-    Normous.Math.Vector2.prototype.blend = function(point, percent) {
+    Normous.Math.Vector2.prototype.iblend = function(point, percent) {
         if(!percent) percent = 0.5;
         this.x += (point.x - this.x) * percent;
         this.y += (point.y - this.y) * percent;
         return this;
+    };
+	
+    Normous.Math.Vector2.prototype.blend = function(point, percent) {
+        if(!percent) percent = 0.5;
+        var x = this.x + (point.x - this.x) * percent;
+        var y = this.y + (point.y - this.y) * percent;
+        return new Normous.Math.Vector2({
+			x: x,
+			y: y
+		});
     };
 	
     Normous.Math.Vector2.prototype.toString = function() {

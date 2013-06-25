@@ -1,5 +1,5 @@
 define([
-	'normous/Object',
+	'normous/events/EventDispatcher',
 	'normous/physics/twod/drawables/CreatejsCollection',
 	'normous/physics/twod/CollisionDetector'
 ], function() {
@@ -12,22 +12,23 @@ define([
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsCollection({item:this, drawableProperties: config.drawableProperties});
 		this.particles = new Array();
 		this.constraints = new Array();
-		this.parent(config);
+		this._super(config);
 	};
-	Normous.Object.inherit(Normous.Physics.Twod.AbstractCollection, Normous.Object);
+	Normous.Object.inherit(Normous.Physics.Twod.AbstractCollection, Normous.Events.EventDispatcher);
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.particles;
 	Normous.Physics.Twod.AbstractCollection.prototype.constraints;
 	Normous.Physics.Twod.AbstractCollection.prototype.isParented = false;
 	Normous.Physics.Twod.AbstractCollection.prototype.drawable;
+	Normous.Physics.Twod.AbstractCollection.prototype.parent;
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.addParticle = function(particle) {
 		this.particles.push(particle); 
+		particle.parent = this;
 		if (this.isParented) {
 			particle.init();
 		}
 		this.drawable.addChild(particle);
-		Normous.Logger.log(this.particles.length);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.removeParticle = function(particle) {
@@ -35,13 +36,28 @@ define([
 		if(index == -1) {
 			return;
 		}
+		particle.parent = null;
 		this.drawable.removeChild(particle);
 		this.particles.splice(index, 1);
 		particle.cleanup();
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.addConstraint = function(constraint) {
-		this.constraints.push(constraint);
+		var found = false;
+		for(var i = this.constraints.length-1; i >= 0; i--) {
+   			var c = this.constraints[i];
+			if(c.priority > constraint.priority) {
+    			continue;
+			}
+			this.constraints.splice(i,0,constraint);
+			found = true;
+			break;
+		}
+		if(!found) {
+   			this.constraints.splice(0,0,constraint);
+		}
+		
+		constraint.parent = this;
 		if (this.isParented) {
 			constraint.init();
 		}
@@ -53,6 +69,7 @@ define([
 		if(index == -1) {
 			return;
 		}
+		constraint.parent = null;
 		this.drawable.removeChild(constraint);
 		this.constraints.splice(index, 1);
 		constraint.cleanup();
@@ -102,9 +119,9 @@ define([
 		}
 	};
 	
-	Normous.Physics.Twod.AbstractCollection.prototype.satisfyConstraints = function() {
+	Normous.Physics.Twod.AbstractCollection.prototype.satisfyConstraints = function(stepCoefficient) {
 		for (var i = 0; i < this.constraints.length; i++) {
-			this.constraints[i].resolve();
+			this.constraints[i].resolve(stepCoefficient);
 		}
 	};
 	

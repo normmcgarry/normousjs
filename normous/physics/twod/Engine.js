@@ -11,7 +11,7 @@ define([
 	Normous.Physics.Twod.Engine = function() {
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsCollection({item:this});
 		this.container = this.drawable.element;
-		this.parent({});
+		this._super({});
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Engine, Normous.Events.EventDispatcher);
 	Normous.Singleton.createSingleton(Normous.Physics.Twod.Engine);
@@ -76,10 +76,10 @@ define([
 	Normous.Physics.Twod.Engine.prototype.update = function() {
 		this.integrate();
 		for(var j = 0; j < this.constraintCycles; j++) {
-			this.satisfyConstraints();	
+			this.satisfyConstraints(1 / (this.constraintCycles));	
 		}
 		for(var i = 0; i < this.constraintCollisionCycles; i++) {
-			this.satisfyConstraints();
+			this.satisfyConstraints(1 / (this.constraintCollisionCycles));
 			this.checkCollisions();
 		}
 	};
@@ -91,10 +91,10 @@ define([
 		}
 	};
 	
-	Normous.Physics.Twod.Engine.prototype.satisfyConstraints = function() {
+	Normous.Physics.Twod.Engine.prototype.satisfyConstraints = function(stepCoefficient) {
 		for(var j = 0; j < this.numGroups; j++) {
 			var group = this.groups[j];
-			group.satisfyConstraints();
+			group.satisfyConstraints(stepCoefficient);
 		}
 	};
 	

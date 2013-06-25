@@ -5,7 +5,7 @@ define([
     Normous.namespace('Normous.Logger');
     
     Normous.Logger = function(config) {
-        this.parent(config);
+        this._super(config);
     };
     Normous.Object.inherit(Normous.Logger, Normous.Object);
     
