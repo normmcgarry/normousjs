@@ -58,4 +58,22 @@ define([
 		return Normous.Physics.Twod.GlobalCollection.constraints[constraint.id];
 	};
 	
+	Normous.Physics.Twod.GlobalCollection.getById = function(id) {
+		if(Normous.Physics.Twod.GlobalCollection.constraints[id]) {
+			return Normous.Physics.Twod.GlobalCollection.constraints[id];
+		}
+		else if(Normous.Physics.Twod.GlobalCollection.particles[id]) {
+			return Normous.Physics.Twod.GlobalCollection.particles[id];
+		}
+		else if(Normous.Physics.Twod.GlobalCollection.groups[id]) {
+			return Normous.Physics.Twod.GlobalCollection.groups[id];
+		}
+		else if(Normous.Physics.Twod.GlobalCollection.composites[id]) {
+			return Normous.Physics.Twod.GlobalCollection.composites[id];
+		}
+		else {
+			return null;
+		}
+	};
+	
 });

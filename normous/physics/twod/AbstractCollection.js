@@ -33,7 +33,11 @@ define([
 		}
 		this.drawable.addChild(particle);
 		Normous.Physics.Twod.GlobalCollection.addParticle(particle);
-		
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.PARTICLE_ADDED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.removeParticle = function(particle) {
@@ -46,6 +50,11 @@ define([
 		this.particles.splice(index, 1);
 		particle.cleanup();
 		Normous.Physics.Twod.GlobalCollection.removeParticle(particle);
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.PARTICLE_REMOVED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.addConstraint = function(constraint) {
@@ -69,6 +78,11 @@ define([
 		}
 		this.drawable.addChild(constraint);
 		Normous.Physics.Twod.GlobalCollection.addConstraint(constraint);
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.CONSTRAINT_ADDED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.removeConstraint = function(constraint) {
@@ -81,6 +95,11 @@ define([
 		this.constraints.splice(index, 1);
 		constraint.cleanup();
 		Normous.Physics.Twod.GlobalCollection.removeConstraint(constraint);
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.CONSTRAINT_REMOVED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.cleanup = function() {

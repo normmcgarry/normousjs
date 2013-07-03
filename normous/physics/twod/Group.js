@@ -31,6 +31,12 @@ define([
 		composite.parent = this;
 		if(this.isParented) composite.init();
 		this.drawable.addChild(composite);
+		
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.COMPOSITE_ADDED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.Group.prototype.removeComposite = function(composite) {
@@ -41,6 +47,12 @@ define([
 		composite.parent = null;
 		composite.isParented = false;
 		composite.cleanup();
+		
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.COMPOSITE_REMOVED,
+			element: particle
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.Group.prototype.paint = function() {
@@ -172,10 +184,21 @@ define([
 		
 	
 	Normous.Physics.Twod.Group.prototype.serialize = function() {
-		
 		var obj = this._super('serialize');
 		obj.composites = [];
+		obj.collisionList = [];
 		
+		for(var i = 0; i < this.composites.length; i++) {
+			var composite = this.composites[i];
+			obj.composites.push(composite.serialize());
+		}
+		
+		for(var i = 0; i < this.collisionList.length; i++) {
+			var collidable = this.collisionList[i];
+			obj.collisionList.push(collidable.id);
+		}
+		
+		return obj;
 	};
 	
 	Normous.Physics.Twod.Group.prototype.unserialize = function(obj) {
@@ -185,6 +208,14 @@ define([
 			var c = obj.composites[i];
 			var composite = Normous.Physics.Twod.GlobalCollection.getCompositeById(c.id);
 			composite.unserialize(c);
+		}
+		
+		this.collisionList = new Array();
+		
+		for(var i = 0; i < obj.collisionList.length; i++) {
+			var g = obj.collisionList[i];
+			var group = Normous.Physics.Twod.GlobalCollection.getGroupById(g);
+			this.collisionList.push(group);
 		}
 	};
 	
@@ -197,7 +228,6 @@ define([
 			composite.create(c);
 			this.addComposite(composite);
 		}
-		
 	};
 		
 });
