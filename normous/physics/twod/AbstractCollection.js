@@ -1,13 +1,16 @@
 define([
 	'normous/events/EventDispatcher',
 	'normous/physics/twod/drawables/CreatejsCollection',
-	'normous/physics/twod/CollisionDetector'
+	'normous/physics/twod/CollisionDetector',
+	'normous/physics/twod/GlobalCollection',
+	'normous/physics/twod/Id
 ], function() {
 	
 	
 	Normous.namespace("Normous.Physics.Twod.AbstractCollection");
 	
 	Normous.Physics.Twod.AbstractCollection = function(config) {
+		this.id = Normous.Physics.Two.Id.generate();
 		if(config == null) config = {};
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsCollection({item:this, drawableProperties: config.drawableProperties});
 		this.particles = new Array();
@@ -29,6 +32,8 @@ define([
 			particle.init();
 		}
 		this.drawable.addChild(particle);
+		Normous.Physics.Twod.GlobalCollection.addParticle(particle);
+		
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.removeParticle = function(particle) {
@@ -40,6 +45,7 @@ define([
 		this.drawable.removeChild(particle);
 		this.particles.splice(index, 1);
 		particle.cleanup();
+		Normous.Physics.Twod.GlobalCollection.removeParticle(particle);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.addConstraint = function(constraint) {
@@ -62,6 +68,7 @@ define([
 			constraint.init();
 		}
 		this.drawable.addChild(constraint);
+		Normous.Physics.Twod.GlobalCollection.addConstraint(constraint);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.removeConstraint = function(constraint) {
@@ -73,6 +80,7 @@ define([
 		this.drawable.removeChild(constraint);
 		this.constraints.splice(index, 1);
 		constraint.cleanup();
+		Normous.Physics.Twod.GlobalCollection.removeConstraint(constraint);
 	};
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.cleanup = function() {
@@ -105,7 +113,7 @@ define([
 		len = this.constraints.length;
 		for (i = 0; i < len; i++) {
 			c = this.constraints[i];
-			if ((! c.fixed) || c.alwaysRepaint) c.paint();
+			c.paint();
 		}
 	};
 	
@@ -149,7 +157,6 @@ define([
 			}
 		}
 	};
-	
 	
 	Normous.Physics.Twod.AbstractCollection.prototype.getAllParticles = function() {
 		var all = new Array();
@@ -199,4 +206,63 @@ define([
 			}
 		}
 	};
+	
+	Normous.Physics.Twod.AbstractCollection.prototype.serialize = function() {
+		
+		var obj = {};
+		obj.id = this.id;
+		obj.parent = this.parent.id;
+		obj.particles = [];
+		obj.constraints = [];
+		
+		for(var i = 0; i < this.particles.length; i++) {
+			var p = this.particles[i];
+			obj.particles.push(p.serialize());
+		}
+	
+		for(var i = 0; i < this.constraints.length; i++) {
+			var c = this.constraints[i];
+			obj.constraints.push(c.serialize());
+		}
+		
+		return obj;
+	};
+	
+	Normous.Physics.Twod.AbstractCollection.prototype.unserialize = function(obj) {
+		
+		for(var i = 0; i < obj.particles.length; i++) {
+			var p = obj.particles[i];
+			var particle = Normous.Physics.Twod.GlobalCollection.getParticleById(p.id);
+			particle.unserialize(p);
+		}
+	
+		for(var i = 0; i < obj.constraints.length; i++) {
+			var c = obj.constraints[i];
+			var constraint = Normous.Physics.Twod.GlobalCollection.getConstraintById(c.id);
+			constraint.unserialize(c);
+		}
+		
+	};
+	
+	Normous.Physics.Twod.AbstractCollection.prototype.create = function(obj) {
+		this.id = obj.id;
+		
+		for(var i = 0; i < obj.particles.length; i++) {
+			var p = obj.particles[i];
+			var type = Normous.getObjectByName(p.type);
+			var particle = new type();
+			particle.create(p);
+			this.addParticle(particle);
+		}
+		
+		for(var i = 0; i < obj.constraints.length; i++) {
+			var c = obj.constraints[i];
+			var type = Normous.getObjectByName(c.type);
+			var constraint = new type();
+			constraint.create(c);
+			this.addConstraint(constraint);
+		}
+		
+	};
+	
 });

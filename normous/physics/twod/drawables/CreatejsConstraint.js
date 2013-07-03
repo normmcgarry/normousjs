@@ -9,7 +9,7 @@ define([
 	Normous.Physics.Twod.Drawables.CreatejsConstraint = function(config) {
 		 var drawableProperties = {
 			lineThickness: 1,
-			lineColor: "rgba(255,0,0,0.2)",
+			lineColor: "rgba(255,255,255,0.2)",
 			fillColor: "rgba(0,0,255,0.2)"
 		};
 		this._super(config);

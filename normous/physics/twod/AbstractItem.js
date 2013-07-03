@@ -1,11 +1,14 @@
 define([
-	'normous/events/EventDispatcher'
+	'normous/events/EventDispatcher',
+	'normous/physics/twod/GlobalCollection',
+	'normous/physics/twod/Id
 ], function() {
 	
 	
 	Normous.namespace("Normous.Physics.Twod.AbstractItem");
 	
 	Normous.Physics.Twod.AbstractItem = function(config) {
+		this.id = Normous.Physics.Twod.Id.generate();
 		this.drawableProperties = {};
 		this._super(config);
 	};
@@ -33,5 +36,20 @@ define([
 		
 	};
 	
+	Normous.Physics.Twod.AbstractItem.prototype.serialize = function() {
+		var obj = {};
+		obj.solid = this.solid;
+		obj.id = this.id;
+		return obj;
+	};
+	
+	Normous.Physics.Twod.AbstractItem.prototype.unserialize = function(obj) {
+		this.solid = obj.solid;
+	};
+	
+	Normous.Physics.Twod.AbstractItem.prototype.create = function(obj) {
+		this.id = obj.id;
+		this.solid = obj.solid;
+	};
 	
 });

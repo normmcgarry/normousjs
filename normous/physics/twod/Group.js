@@ -171,4 +171,33 @@ define([
 	}
 		
 	
+	Normous.Physics.Twod.Group.prototype.serialize = function() {
+		
+		var obj = this._super('serialize');
+		obj.composites = [];
+		
+	};
+	
+	Normous.Physics.Twod.Group.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		
+		for(var i = 0; i < obj.composites.length; i++) {
+			var c = obj.composites[i];
+			var composite = Normous.Physics.Twod.GlobalCollection.getCompositeById(c.id);
+			composite.unserialize(c);
+		}
+	};
+	
+	Normous.Physics.Twod.Group.prototype.create = function(obj) {
+		this._super('create', obj);
+		
+		for(var i = 0; i < obj.composites.length; i++) {
+			var c = obj.composites[i];
+			var composite = new Normous.Physics.Twod.Composite();
+			composite.create(c);
+			this.addComposite(composite);
+		}
+		
+	};
+		
 });

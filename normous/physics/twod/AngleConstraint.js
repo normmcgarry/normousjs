@@ -20,6 +20,7 @@ define([
     Normous.Physics.Twod.AngleConstraint.prototype.p2;
     Normous.Physics.Twod.AngleConstraint.prototype.p3;
     Normous.Physics.Twod.AngleConstraint.prototype.priority = 0;
+    Normous.Physics.Twod.AngleConstraint.TYPE = "Normous.Physics.Twod.AngleConstraint";
 
     Normous.Physics.Twod.AngleConstraint.prototype.resolve = function(stepCoefficient) {
         var angle = this.p2.position.angle2(this.p1.position, this.p3.position);
@@ -42,6 +43,9 @@ define([
         this.p2.position = this.p2.position.rotate(this.p3.position, -diff);
 		*/
 		
+		this.p1.position.irotate(90).iadd(new Normous.Math.Vector2({x:20, y:0}));
+		
+		
 		if(!this.p1.fixed) {
         	this.p1.position = this.p1.position.rotate(this.p2.position, diff);
 		}
@@ -63,4 +67,30 @@ define([
         this.drawable.paint();
     };
 
+
+    Normous.Physics.Twod.AngleConstraint.prototype.serialize = function() {
+		var obj = this._super('serialize');
+		obj.p1 = this.p1.id;
+		obj.p2 = this.p2.id;
+		obj.p3 = this.p3.id;
+		obj.angle = this.angle;
+		obj.type = Normous.Physics.Twod.AngleConstraint.TYPE;
+	};
+	
+    Normous.Physics.Twod.AngleConstraint.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		this.p1 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p1);
+		this.p2 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p2);
+		this.p3 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p3);
+		this.angle = obj.angle;
+	};
+	
+    Normous.Physics.Twod.AngleConstraint.prototype.create = function(obj) {
+		this._super('create', obj);
+		this.p1 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p1);
+		this.p2 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p2);
+		this.p3 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p3);
+		this.angle = obj.angle;
+	};
+	
 });

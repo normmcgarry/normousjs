@@ -37,4 +37,5 @@ define([
 		this.delta.reset(p.x - center.x, p.y - center.y);
 		return Math.atan2(delta.y, delta.x);
 	};
+	
 });

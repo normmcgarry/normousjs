@@ -29,6 +29,7 @@ define([
 	Normous.Physics.Twod.RectangleParticle.prototype.axes;
 	Normous.Physics.Twod.RectangleParticle.prototype.radian = 0;
 	Normous.Physics.Twod.RectangleParticle.prototype.rotation = 0;
+	Normous.Physics.Twod.RectangleParticle.TYPE = "Normous.Physics.Twod.RectangleParticle";
 	
 	Normous.Physics.Twod.RectangleParticle.prototype.init = function() {
 		//Normous.Logger.log("Normous.Physics.Twod.RectangleParticle.init()");
@@ -102,4 +103,30 @@ define([
 		return this.height;
 	};
 	
+	Normous.Physics.Twod.RectangleParticle.prototype.serialize = function() {
+		var obj = this._super('serialize');
+		obj.width = this.width;
+		obj.height = this.height;
+		obj.rotation = this.getRadian();
+		obj.type = Normous.Physics.Twod.RectangleParticle.TYPE;
+
+		return obj;
+	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		this.rotation = obj.rotation;
+		this.setWidth(obj.width);
+		this.setHeight(obj.height);
+		return obj;
+	};
+	
+	Normous.Physics.Twod.RectangleParticle.prototype.create = function(obj) {
+		this._super('create', obj);
+		this.rotation = obj.rotation;
+		this.setWidth(obj.width);
+		this.setHeight(obj.height);
+		return obj;
+	};
+		
 });

@@ -17,6 +17,7 @@ define([
 		this.elasticity = (this.p1.elasticity + this.p2.elasticity) / 2;
 		this.mass = (this.p1.mass + this.p2.mass) / 2;
 		this.parent = this.p;
+		
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.SpringConstraintParticle, Normous.Physics.Twod.RectangleParticle);
@@ -35,9 +36,10 @@ define([
 	Normous.Physics.Twod.SpringConstraintParticle.prototype.rcb;
 	Normous.Physics.Twod.SpringConstraintParticle.prototype.s = 0;
 	
-	Normous.Physics.Twod.SpringConstraintParticle.prototype.rectScale;
-	Normous.Physics.Twod.SpringConstraintParticle.prototype.rectHeight;
-	Normous.Physics.Twod.SpringConstraintParticle.prototype.fixedEndLimit;
+	Normous.Physics.Twod.SpringConstraintParticle.prototype.rectScale = 1;
+	Normous.Physics.Twod.SpringConstraintParticle.prototype.rectHeight = 2;
+	Normous.Physics.Twod.SpringConstraintParticle.prototype.fixedEndLimit = 0.5;
+	Normous.Physics.Twod.SpringConstraintParticle.TYPE = "Normous.Physics.Twod.SpringConstraintParticle";
 	
 	Normous.Physics.Twod.SpringConstraintParticle.prototype.getMass = function() {
 		return (this.p1.mass + this.p2.mass) / 2;
@@ -51,7 +53,13 @@ define([
 		return this.averageVelocity;
 	};
 	
+	Normous.Physics.Twod.SpringConstraintParticle.prototype.paint = function() {
+		this.drawable.draw();
+		this._super('paint');
+	};
+	
 	Normous.Physics.Twod.SpringConstraintParticle.prototype.updatePosition = function() {
+		
 		var c = this.parent.getCenter();
 		this.position.reset(c.x, c.y);
 		
@@ -59,7 +67,9 @@ define([
 						this.parent.getPositionLength() * this.rectScale : 
 						this.parent.restLength * this.rectScale;
 		this.height = this.rectHeight;
+		this.extents = new Array(this.width/2, this.height/2);
 		this.radian = this.parent.getRadian();
+		this.setRadian(this.radian);
 	};
 	
 	Normous.Physics.Twod.SpringConstraintParticle.prototype.resolveCollision = function(mtd, vel, n, d, o, p) {
@@ -76,13 +86,13 @@ define([
 		if (this.p1.fixed) {
 			if (c2 <= this.fixedEndLimit) return;
 			this.lambda.reset(mtd.x / c2, mtd.y / c2);
-			this.p2.position.iadd(lambda);
+			this.p2.position.iadd(this.lambda);
 			this.p2.setVelocity(vel);
 
 		} else if (this.p2.fixed) {
 			if (c1 <= this.fixedEndLimit) return;
 			this.lambda.reset(mtd.x / c1, mtd.y / c1);
-			this.p1.position.iadd(lambda);
+			this.p1.position.iadd(this.lambda);
 			this.p1.setVelocity(vel);
 
 		// else both non fixed - move proportionally out of collision
@@ -237,4 +247,44 @@ define([
 	};
 	
 	
+    Normous.Physics.Twod.SpringConstraintParticle.prototype.serialize = function() {
+        var obj = this._super('serialize');
+		obj.type = Normous.Physics.Twod.SpringConstraintParticle.TYPE;
+		
+		obj.p1 = this.p1.id;
+		obj.p2 = this.p2.id;
+		obj.restLength = this.restLength;
+		obj.rectHeight = this.rectHeight;
+		obj.rectScale = this.rectScale;
+		obj.scaleToLength = this.scaleToLength;
+		
+		return obj;
+    };
+
+    Normous.Physics.Twod.SpringConstraintParticle.prototype.unserialize = function(obj) {
+        this._super('unserialize', obj);
+		
+		this.p1 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p1);
+		this.p2 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p2);
+		this.restLength = obj.restLength;
+		this.rectHeight = obj.rectHeight;
+		this.rectScale = obj.rectScale;
+		this.scaleToLength = obj.scaleToLength;
+		
+		return obj;
+    };
+
+    Normous.Physics.Twod.SpringConstraintParticle.prototype.create = function(obj) {
+        this._super('create', obj);
+		
+		this.p1 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p1);
+		this.p2 = Normous.Physics.Twod.GlobalCollection.getParticleById(obj.p2);
+		this.restLength = obj.restLength;
+		this.rectHeight = obj.rectHeight;
+		this.rectScale = obj.rectScale;
+		this.scaleToLength = obj.scaleToLength;
+		
+		return obj;
+    };
+
 });

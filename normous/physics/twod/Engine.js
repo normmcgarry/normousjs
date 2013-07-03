@@ -1,6 +1,8 @@
 define([
 	'normous/events/EventDispatcher',
 	'normous/physics/twod/drawables/CreatejsCollection',
+	'normous/physics/twod/GlobalCollection',
+	'normous/physics/twod/GlobalForces',
 	'normous/Singleton'
 ], function() {
 	
@@ -18,6 +20,8 @@ define([
 	
 	Normous.Physics.Twod.Engine.forces = new Array();
 	
+	Normous.Physics.Twod.Engine.prototype.worker = null;
+	
 	Normous.Physics.Twod.Engine.prototype.init = function(dt) {
 		this.timeStep = dt * dt;
 		
@@ -31,14 +35,11 @@ define([
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.addForce = function(force) {
-		Normous.Physics.Twod.Engine.forces.push(force);
+		Normous.Physics.Twod.GlobalForces.addForce(force);
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.removeForce = function(force) {
-		var index = Normous.Physics.Twod.Engine.forces.indexOf(force);
-		if(index != -1) {
-			Normous.Physics.Twod.Engine.forces.splice(index, 1);
-		}
+		Normous.Physics.Twod.GlobalForces.removeForce(force);
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.removeForces = function() {
@@ -59,6 +60,7 @@ define([
 		group.isParented = true;
 		this.drawable.addChild(group);
 		group.init();
+		Normous.Physics.Twod.GlobalCollection.addGroup(group);
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.removeGroup = function(group) {
@@ -71,6 +73,7 @@ define([
 		group.isParented = false;
 		this.numGroups--;
 		group.cleanup();
+		Normous.Physics.Twod.GlobalCollection.removeGroup(group);
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.update = function() {

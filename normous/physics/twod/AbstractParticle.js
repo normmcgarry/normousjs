@@ -3,7 +3,8 @@ define([
 	'normous/physics/twod/AbstractItem',
 	'normous/physics/twod/Interval',
 	'normous/physics/twod/Collision',
-	'normous/physics/twod/CollisionEvent'
+	'normous/physics/twod/CollisionEvent',
+	'normous/physics/twod/GlobalForces'
 ], function() {
 	
 	
@@ -147,7 +148,7 @@ define([
 		this._temp.set(this.position);
 		this.accumulatedForce.imultiply(dt2);
 		var normal = this.getVelocity().add(this.accumulatedForce);
-		normal.imultiply(Normous.Physics.Twod.Engine.damping);
+		normal.imultiply(Normous.Physics.Twod.GlobalForces.damping);
 		this.position.iadd(normal);
 		this.previous.set(this._temp);
 		
@@ -163,7 +164,7 @@ define([
 			this.accumulatedForce.iadd(f.getValue(this._inverseMass));
 		}
 		
-		var globalForces = Normous.Physics.Twod.Engine.forces;
+		var globalForces = Normous.Physics.Twod.GlobalForces.forces;
 		len = globalForces.length;
 		for (i = 0; i < len; i++) {
 			f = globalForces[i];
@@ -209,6 +210,44 @@ define([
 		this.collision.vn = collisionNormal.multiply(vdotn);
 		this.collision.vt = vel.subtract(this.collision.vn); 
 		return this.collision;
+	};
+	
+	Normous.Physics.Twod.AbstractParticle.prototype.serialize = function() {
+		var obj = this._super('serialize');
+		obj.inverseMass = this.getInverseMass();
+		obj.friction = this.friction;
+		obj.elasticity = this.elasticity;
+		obj.position = { x: this.position.x, y: this.position.y };
+		obj.previous = { x: this.previous.x, y: this.previous.y };
+		obj.multisample = this.mutlisample;
+		obj.firstCollision = this.firstCollision;
+		obj.collidable = this.collidable;
+		
+		return obj;
+	};
+	
+	Normous.Physics.Twod.AbstractParticle.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		this._inverseMass = obj.inverseMass;
+		this.friction = obj.friction;
+		this.elasticity = obj.elasticity;
+		this.position.reset(obj.position.x, obj.position.y);
+		this.previous.reset(obj.previous.x, obj.previous.y);
+		this.multisample = obj.mutlisample;
+		this.firstCollision = obj.firstCollision;
+		this.collidable = obj.collidable;
+	};
+	
+	Normous.Physics.Twod.AbstractParticle.prototype.create = function(obj) {
+		this._super('create', obj);
+		this._inverseMass = obj.inverseMass;
+		this.friction = obj.friction;
+		this.elasticity = obj.elasticity;
+		this.position.reset(obj.position.x, obj.position.y);
+		this.previous.reset(obj.previous.x, obj.previous.y);
+		this.multisample = obj.mutlisample;
+		this.firstCollision = obj.firstCollision;
+		this.collidable = obj.collidable;
 	};
 	
 });

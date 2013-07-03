@@ -47,7 +47,8 @@ define([
 	Normous.Physics.Twod.CollisionDetector.normVsNorm = function(objA, objB) {
 		objA.sample.set(objA.position);
 		objB.sample.set(objB.position);
-		if (Normous.Physics.Twod.CollisionDetector.testTypes(objA, objB)) {
+		var typesTest = Normous.Physics.Twod.CollisionDetector.testTypes(objA, objB);
+		if (typesTest) {
 				Normous.Physics.Twod.CollisionResolver.resolve(Normous.Physics.Twod.CollisionDetector.cpa, Normous.Physics.Twod.CollisionDetector.cpb, Normous.Physics.Twod.CollisionDetector.collNormal, Normous.Physics.Twod.CollisionDetector.collDepth);
 				return true;
 		}
@@ -61,8 +62,8 @@ define([
 		var t = s;
 		
 		for (var i = 0; i <= objA.multisample; i++) {
-			objA.sample.setTo(objA.previous.x + t * (objA.position.x - objA.previous.x), objA.previous.y + t * (objA.position.y - objA.previous.y));
-			objB.sample.setTo(objB.previous.x + t * (objB.position.x - objB.previous.x), objB.previous.y + t * (objB.position.y - objB.previous.y));
+			objA.sample.reset(objA.previous.x + t * (objA.position.x - objA.previous.x), objA.previous.y + t * (objA.position.y - objA.previous.y));
+			objB.sample.reset(objB.previous.x + t * (objB.position.x - objB.previous.x), objB.previous.y + t * (objB.position.y - objB.previous.y));
 			
 			if (Normous.Physics.Twod.CollisionDetector.testTypes(objA, objB)) {
 					Normous.Physics.Twod.CollisionResolver.resolve(Normous.Physics.Twod.CollisionDetector.cpa, Normous.Physics.Twod.CollisionDetector.cpb, Normous.Physics.Twod.CollisionDetector.collNormal, Normous.Physics.Twod.CollisionDetector.collDepth);
@@ -74,16 +75,16 @@ define([
 	
 	Normous.Physics.Twod.CollisionDetector.testTypes = function(objA, objB) {
 		
-		if(objA instanceof Normous.Physics.Twod.RectangleParticle && objB instanceof Normous.Physics.Twod.RectangleParticle) {
+		if((objA instanceof Normous.Physics.Twod.RectangleParticle || objA instanceof Normous.Physics.Twod.SpringConstraintParticle) && (objB instanceof Normous.Physics.Twod.RectangleParticle || objB instanceof Normous.Physics.Twod.SpringConstraintParticle)) {
 			return Normous.Physics.Twod.CollisionDetector.testOBBvsOBB(objA, objB);
 		}
 		else if(objA instanceof Normous.Physics.Twod.CircleParticle && objB instanceof Normous.Physics.Twod.CircleParticle) {
 			return Normous.Physics.Twod.CollisionDetector.testCirclevsCircle(objA, objB);
 		}
-		else if(objA instanceof Normous.Physics.Twod.RectangleParticle && objB instanceof Normous.Physics.Twod.CircleParticle) {
+		else if((objA instanceof Normous.Physics.Twod.RectangleParticle || objA instanceof Normous.Physics.Twod.SpringConstraintParticle) && objB instanceof Normous.Physics.Twod.CircleParticle) {
 			return Normous.Physics.Twod.CollisionDetector.testOBBvsCircle(objA, objB);
 		}
-		else if(objA instanceof Normous.Physics.Twod.CircleParticle && objB instanceof Normous.Physics.Twod.RectangleParticle) {
+		else if(objA instanceof Normous.Physics.Twod.CircleParticle && (objB instanceof Normous.Physics.Twod.RectangleParticle || objB instanceof Normous.Physics.Twod.SpringConstraintParticle)) {
 			return Normous.Physics.Twod.CollisionDetector.testOBBvsCircle(objB, objA);
 		}
 		
@@ -92,7 +93,7 @@ define([
 	Normous.Physics.Twod.CollisionDetector.testOBBvsOBB = function(objA, objB) {
 		var depths = new Array();
 		var collDepth = Number.POSITIVE_INFINITY;
-		var collNormal = null;
+		var collNormal = Normous.Physics.Twod.CollisionDetector.collNormal;
 		
 		for(var i = 0; i < 2; i++) {
 			var axisA = objA.axes[i];
@@ -119,12 +120,13 @@ define([
 		
 		Normous.Physics.Twod.CollisionDetector.collDepth = collDepth;
 		Normous.Physics.Twod.CollisionDetector.collNormal = collNormal;
+		return true;
 	};
 	
 	Normous.Physics.Twod.CollisionDetector.testOBBvsCircle = function(objA, objB) {
 		var depths = new Array();
 		var collDepth = Number.POSITIVE_INFINITY;
-		var collNormal = null;
+		var collNormal = Normous.Physics.Twod.CollisionDetector.collNormal;
 		
 		for(var i = 0; i < 2; i++) {
 			var boxAxis = objA.axes[i];

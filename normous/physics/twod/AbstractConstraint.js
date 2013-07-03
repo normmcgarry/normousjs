@@ -18,5 +18,28 @@ define([
 		
 	};
 	
+	Normous.Physics.Twod.AbstractConstraint.prototype.serialize = function() {
+		
+		var obj = this._super('serialize');
+		obj.stiffness = this.stiffness;
+		obj.priority = this.priority;
+		
+		return obj;
+		
+	};
+	
+	
+	Normous.Physics.Twod.AbstractConstraint.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		this.stiffness = obj.stiffness;
+		this.priority = obj.priority;
+	};
+	
+	Normous.Physics.Twod.AbstractConstraint.prototype.create = function(obj) {
+		this._super('create', obj);
+		this.stiffness = obj.stiffness;
+		this.priority = obj.priority;
+	};
+	
 	
 });

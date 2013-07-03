@@ -1,6 +1,7 @@
 define([
 	'normous/Object',
-	'normous/math/Vector2'
+	'normous/math/Vector2',
+	'normous/physics/twod/Id
 ], function() {
 	
 	
@@ -8,8 +9,9 @@ define([
 	
 	
 	Normous.Physics.Twod.Force = function(config) {
+		this.id = Normous.Physics.Twod.Id.generate();
 		this._super(config);
-		this.value = new Normous.Math.Vector2(this.x, this.y);
+		this.value = new Normous.Math.Vector2({x: this.x, y: this.y});
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.Force, Normous.Object);
@@ -27,5 +29,17 @@ define([
 		return this.value;
 	};
 	
+	Normous.Physics.Twod.Force.prototype.serialize = function() {
+		var obj = {};
+		obj.x = this.x;
+		obj.y = this.y;
+		obj.scaleMass = this.scaleMass;
+		return obj;
+	};
+	Normous.Physics.Twod.Force.prototype.unserialize = function(obj) {
+		this.x = obj.x;
+		this.y = obj.y;
+		this.scaleMass = obj.scaleMass;
+	};
 	
 });

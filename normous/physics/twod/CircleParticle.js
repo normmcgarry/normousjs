@@ -20,6 +20,7 @@ define([
 	Normous.Object.inherit(Normous.Physics.Twod.CircleParticle, Normous.Physics.Twod.AbstractParticle);
 	
 	Normous.Physics.Twod.CircleParticle.prototype.radius = 0;
+    Normous.Physics.Twod.CircleParticle.TYPE = "Normous.Physics.Twod.CircleParticle";
 	
 	Normous.Physics.Twod.CircleParticle.prototype.init = function() {
 		this.cleanup();
@@ -48,4 +49,21 @@ define([
 		this.interval.max = this.sample.y + this.radius;
 		return this.interval;
 	};
+	
+	Normous.Physics.Twod.CircleParticle.prototype.serialize = function() {
+		var obj = this._super('serialize');
+		obj.radius = this.radius;
+		obj.type = Normous.Physics.Twod.CircleParticle.TYPE;
+	};
+	
+	Normous.Physics.Twod.CircleParticle.prototype.unserialize = function(obj) {
+		this._super('unserialize', obj);
+		this.radius = obj.radius;
+	};
+	
+	Normous.Physics.Twod.CircleParticle.prototype.create = function(obj) {
+		this._super('create', obj);
+		this.radius = obj.radius;
+	};
+	
 });
