@@ -1,7 +1,7 @@
 define([
 	'normous/events/EventDispatcher',
 	'normous/physics/twod/GlobalCollection',
-	'normous/physics/twod/Id
+	'normous/physics/twod/Id'
 ], function() {
 	
 	

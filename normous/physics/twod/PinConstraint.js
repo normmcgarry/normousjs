@@ -8,6 +8,7 @@ define([
     Normous.namespace("Normous.Physics.Twod.PinConstraint");
 
     Normous.Physics.Twod.PinConstraint = function(config) {
+		if(config == null) config = {};
 		this.stiffness = null;
         this.drawable = new Normous.Physics.Twod.Drawables.CreatejsPinConstraint({item:this, drawableProperties: config.drawableProperties});
 		this.position = new Normous.Math.Vector2();

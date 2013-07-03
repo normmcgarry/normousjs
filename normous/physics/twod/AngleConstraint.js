@@ -8,10 +8,12 @@ define([
 
 
     Normous.Physics.Twod.AngleConstraint = function(config) {
+		if(config == null) config = {};
         this.drawable = new Normous.Physics.Twod.Drawables.CreatejsAngleConstraint({item:this, drawableProperties: config.drawableProperties});
         this._super(config);
 
-        this.angle = this.p2.position.angle2(this.p1.position, this.p3.position);
+		if(this.p1 && this.p2 && this.p3)
+        	this.angle = this.p2.position.angle2(this.p1.position, this.p3.position);
     };
 
     Normous.Object.inherit(Normous.Physics.Twod.AngleConstraint, Normous.Physics.Twod.AbstractConstraint);
@@ -75,6 +77,8 @@ define([
 		obj.p3 = this.p3.id;
 		obj.angle = this.angle;
 		obj.type = Normous.Physics.Twod.AngleConstraint.TYPE;
+		
+		return obj;
 	};
 	
     Normous.Physics.Twod.AngleConstraint.prototype.unserialize = function(obj) {

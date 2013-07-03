@@ -14,7 +14,8 @@ define([
 		};
 		this._super(config);
 		this.drawableProperties = Normous.extend(drawableProperties, config.drawableProperties);
-		this.element = new createjs.Shape();
+		if(typeof createjs !== "undefined")
+			this.element = new createjs.Shape();
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Drawables.CreatejsAngleConstraint, Normous.Physics.Twod.Drawable);
 
@@ -26,6 +27,9 @@ define([
 	};
 	
 	Normous.Physics.Twod.Drawables.CreatejsAngleConstraint.prototype.paint = function() {
+		if(this.element == null) {
+			return;
+		}
 		//Normous.Logger.log("Normous.Physics.Twod.Drawables.CreatejsAngleConstraint.paint()" + Math.floor(this.item.p1.getX()) + "x" + Math.floor(this.item.p1.getY()) );
 		var props = this.drawableProperties;
 		this.element.graphics.clear();

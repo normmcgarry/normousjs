@@ -1,5 +1,6 @@
 define([
 	'normous/Object',
+	'normous/Singleton',
 	'normous/events/EventDispatcher'
 ], function() {
 	
@@ -13,8 +14,23 @@ define([
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.EngineWorker, Normous.Events.EventDispatcher);
+	Normous.Singleton.createSingleton(Normous.Physics.Twod.EngineWorker);
 	
 	Normous.Physics.Twod.EngineWorker.prototype.engine = null;
+	
+	Normous.Physics.Twod.EngineWorker.prototype.synchronize = function(data) {
+		var groups = data.groups;
+		
+		for(var i = 0; i < groups.length; i++) {
+			var g = groups[i];
+			var group = Normous.Physics.Twod.GlobalCollection.getGroupById(g.id);
+			if(group == null) {
+				this.addGroup(g);
+				continue;
+			}
+			group.unserialize(g);
+		}
+	};
 	
 	Normous.Physics.Twod.EngineWorker.prototype.addGroup = function(obj) {
 		var group = new Normous.Physics.Twod.Group();
@@ -68,4 +84,12 @@ define([
 		var composite = Normous.Physics.Twod.GlobalCollection.getById(obj.id);
 		collection.removeComposite(composite);
 	};
+	
+	Normous.Physics.Twod.EngineWorker.prototype.addForce = function(force, particle) {
+		Normous.Logger.log("EngineWorker.addForce()");
+		var particle = Normous.Physics.Twod.GlobalCollection.getById(particle.id);
+		var force = new Normous.Physics.Twod.Force(force);
+		particle.addForce(force);
+	};
+	
 });

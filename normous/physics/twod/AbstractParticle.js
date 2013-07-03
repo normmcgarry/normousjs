@@ -4,13 +4,14 @@ define([
 	'normous/physics/twod/Interval',
 	'normous/physics/twod/Collision',
 	'normous/physics/twod/CollisionEvent',
+	'normous/physics/twod/ForceEvent',
+	'normous/physics/twod/EngineSynchronizer',
 	'normous/physics/twod/GlobalForces'
 ], function() {
 	
 	
 	Normous.namespace("Normous.Physics.Twod.AbstractParticle");
 	
-	console.log("AbstractParticle");
 	Normous.Physics.Twod.AbstractParticle = function(config) {
 		this.position = new Normous.Math.Vector2();
 		this.previous = this.position.clone();
@@ -139,7 +140,6 @@ define([
 		this.forces.push(force);
 	};
 	
-	
 	Normous.Physics.Twod.AbstractParticle.prototype.update = function(dt2) {
 		if(this.fixed) {	
 			return;
@@ -222,6 +222,11 @@ define([
 		obj.multisample = this.mutlisample;
 		obj.firstCollision = this.firstCollision;
 		obj.collidable = this.collidable;
+		obj.forces = [];
+		
+		for(var i = 0; i < this.forces.length; i++) {
+			obj.forces.push(this.forces[i].serialize());
+		}
 		
 		return obj;
 	};
@@ -236,6 +241,12 @@ define([
 		this.multisample = obj.mutlisample;
 		this.firstCollision = obj.firstCollision;
 		this.collidable = obj.collidable;
+		
+		for(var i = 0; i < obj.forces.length; i++) {
+			var f = obj.forces[i];
+			var force = new Normous.Physics.Twod.Force();
+			force.unserialize(f);
+		}
 	};
 	
 	Normous.Physics.Twod.AbstractParticle.prototype.create = function(obj) {

@@ -14,7 +14,8 @@ define([
 		};
 		this._super(config);
 		this.drawableProperties = Normous.extend(drawableProperties, config.drawableProperties);
-		this.element = new createjs.Shape();
+		if(typeof createjs !== "undefined")
+			this.element = new createjs.Shape();
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Drawables.CreatejsRectangle, Normous.Physics.Twod.Drawable);
 
@@ -28,6 +29,9 @@ define([
 	};
 	
 	Normous.Physics.Twod.Drawables.CreatejsRectangle.prototype.draw = function() {
+		if(this.element == null) {
+			return;
+		}
 		var props = this.drawableProperties;
 		this.element.graphics.clear();
 		this.element.graphics.beginStroke(props.lineColor).beginFill(props.fillColor).setStrokeStyle(props.lineThickness);
@@ -36,6 +40,9 @@ define([
 		this.element.graphics.endStroke();
 	};
 	Normous.Physics.Twod.Drawables.CreatejsRectangle.prototype.paint = function() {
+		if(this.element == null) {
+			return;
+		}
 		this.element.x = this.item.getX();
 		this.element.y = this.item.getY();
 		this.element.rotation = this.item.getAngle();

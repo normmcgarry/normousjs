@@ -14,7 +14,8 @@ define([
 		};
 		this._super(config);
 		this.drawableProperties = Normous.extend(drawableProperties, config.drawableProperties);
-		this.element = new createjs.Container();
+		if(typeof createjs !== "undefined")
+			this.element = new createjs.Container();
 	};
 	Normous.Object.inherit(Normous.Physics.Twod.Drawables.CreatejsCollection, Normous.Physics.Twod.Drawable);
 
@@ -28,10 +29,16 @@ define([
 	};
 	
 	Normous.Physics.Twod.Drawables.CreatejsCollection.prototype.addChild = function(item) {
+		if(this.element == null) {
+			return;
+		}
 		this.element.addChild(item.drawable.element);
 	};
 	
 	Normous.Physics.Twod.Drawables.CreatejsCollection.prototype.removeChild = function(item) {
+		if(this.element == null) {
+			return;
+		}
 		this.element.removeChild(item.drawable.element);
 	};
 	

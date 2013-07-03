@@ -3,12 +3,12 @@ define([
 ], function() {
 	
 	
-	Normous.namepsace("Normous.Physics.Twod.GlobalCollection");
+	Normous.namespace("Normous.Physics.Twod.GlobalCollection");
 	
 	Normous.Physics.Twod.GlobalCollection.particles = {};
 	Normous.Physics.Twod.GlobalCollection.constraints = {};
 	Normous.Physics.Twod.GlobalCollection.groups = {};
-	Normous.Physics.Twod.GlobalCollection.compsites = {};
+	Normous.Physics.Twod.GlobalCollection.composites = {};
 	
 	Normous.Physics.Twod.GlobalCollection.addParticle = function(particle) {
 		Normous.Physics.Twod.GlobalCollection.particles[particle.id] = particle;
@@ -38,24 +38,24 @@ define([
 		Normous.Physics.Twod.GlobalCollection.composites[composite.id] = composite;
 	};
 	
-	Normous.Physics.Twod.GlobalCollection.removeComposite = function(composite) {
-		delete Normous.Physics.Twod.GlobalCollection.composites[composite.id];
+	Normous.Physics.Twod.GlobalCollection.removeComposite = function(id) {
+		delete Normous.Physics.Twod.GlobalCollection.composites[id];
 	};
 	
 	Normous.Physics.Twod.GlobalCollection.getCompositeById = function(id) {
-		return Normous.Physics.Twod.GlobalCollection.composites[composite.id];
+		return Normous.Physics.Twod.GlobalCollection.composites[id];
 	};
 	
-	Normous.Physics.Twod.GlobalCollection.getGroupById = function(group) {
-		return Normous.Physics.Twod.GlobalCollection.groups[group.id];
+	Normous.Physics.Twod.GlobalCollection.getGroupById = function(id) {
+		return Normous.Physics.Twod.GlobalCollection.groups[id];
 	};
 	
-	Normous.Physics.Twod.GlobalCollection.getParticleById = function(particle) {
-		return Normous.Physics.Twod.GlobalCollection.particles[particle.id];
+	Normous.Physics.Twod.GlobalCollection.getParticleById = function(id) {
+		return Normous.Physics.Twod.GlobalCollection.particles[id];
 	};
 	
-	Normous.Physics.Twod.GlobalCollection.getConstraintById = function(constraint) {
-		return Normous.Physics.Twod.GlobalCollection.constraints[constraint.id];
+	Normous.Physics.Twod.GlobalCollection.getConstraintById = function(id) {
+		return Normous.Physics.Twod.GlobalCollection.constraints[id];
 	};
 	
 	Normous.Physics.Twod.GlobalCollection.getById = function(id) {

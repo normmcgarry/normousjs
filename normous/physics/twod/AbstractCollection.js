@@ -3,14 +3,15 @@ define([
 	'normous/physics/twod/drawables/CreatejsCollection',
 	'normous/physics/twod/CollisionDetector',
 	'normous/physics/twod/GlobalCollection',
-	'normous/physics/twod/Id
+	'normous/physics/twod/EngineEvent',
+	'normous/physics/twod/Id'
 ], function() {
 	
 	
 	Normous.namespace("Normous.Physics.Twod.AbstractCollection");
 	
 	Normous.Physics.Twod.AbstractCollection = function(config) {
-		this.id = Normous.Physics.Two.Id.generate();
+		this.id = Normous.Physics.Twod.Id.generate();
 		if(config == null) config = {};
 		this.drawable = new Normous.Physics.Twod.Drawables.CreatejsCollection({item:this, drawableProperties: config.drawableProperties});
 		this.particles = new Array();
@@ -80,7 +81,7 @@ define([
 		Normous.Physics.Twod.GlobalCollection.addConstraint(constraint);
 		var e = new Normous.Physics.Twod.EngineEvent({
    			type: Normous.Physics.Twod.EngineEvent.CONSTRAINT_ADDED,
-			element: particle
+			element: constraint
 		});
 		this.dispatchEvent(e);
 	};
@@ -97,7 +98,7 @@ define([
 		Normous.Physics.Twod.GlobalCollection.removeConstraint(constraint);
 		var e = new Normous.Physics.Twod.EngineEvent({
    			type: Normous.Physics.Twod.EngineEvent.CONSTRAINT_REMOVED,
-			element: particle
+			element: constraint
 		});
 		this.dispatchEvent(e);
 	};
@@ -230,7 +231,8 @@ define([
 		
 		var obj = {};
 		obj.id = this.id;
-		obj.parent = this.parent.id;
+		if(this.parent)
+			obj.parent = this.parent.id;
 		obj.particles = [];
 		obj.constraints = [];
 		

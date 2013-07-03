@@ -188,7 +188,7 @@ define([
         return this;
     };
 	
-    Normous.Math.Vector2.prototype.bl end = function(point, percent) {
+    Normous.Math.Vector2.prototype.blend = function(point, percent) {
         if(!percent) percent = 0.5;
         var x = this.x + (point.x - this.x) * percent;
         var y = this.y + (point.y - this.y) * percent;

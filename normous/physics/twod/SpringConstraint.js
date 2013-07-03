@@ -10,9 +10,12 @@ define([
     Normous.namespace("Normous.Physics.Twod.SpringConstraint");
 	
     Normous.Physics.Twod.SpringConstraint = function(config) {
+		if(config == null) config = {};
         this.drawable = new Normous.Physics.Twod.Drawables.CreatejsConstraint({item:this, drawableProperties: config.drawableProperties});
         this._super(config);
-        this.fixed = (this.p1.fixed && this.p2.fixed);
+		this.fixed = false;
+		if(this.p1 && this.p2) 
+        	this.fixed = (this.p1.fixed && this.p2.fixed);
         this.setCollidable(this.collidable, this.rectHeight, this.rectScale, this.scaleToLength);
     };
 

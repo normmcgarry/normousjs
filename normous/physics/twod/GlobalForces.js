@@ -1,5 +1,6 @@
 define([
-	
+	'normous/Object',
+	'normous/Singleton'
 ], function() {
 	
 	Normous.namespace("Normous.Physics.Twod.GlobalForces");
@@ -13,10 +14,10 @@ define([
 	Normous.Singleton.createSingleton(Normous.Physics.Twod.GlobalForces);
 	
 	Normous.Physics.Twod.GlobalForces.forces = [];
-	Normous.Physics.Twod.GlobalForces.damping = [];
+	Normous.Physics.Twod.GlobalForces.damping = 0.9;
 	
 	Normous.Physics.Twod.GlobalForces.addForce = function(force) {
-		this.push(force);
+		Normous.Physics.Twod.GlobalForces.forces.push(force);
 	};
 	
 	Normous.Physics.Twod.GlobalForces.removeForce = function(force) {

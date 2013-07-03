@@ -1,7 +1,7 @@
 define([
 	'normous/Object',
 	'normous/math/Vector2',
-	'normous/physics/twod/Id
+	'normous/physics/twod/Id'
 ], function() {
 	
 	
@@ -36,10 +36,12 @@ define([
 		obj.scaleMass = this.scaleMass;
 		return obj;
 	};
+	
 	Normous.Physics.Twod.Force.prototype.unserialize = function(obj) {
 		this.x = obj.x;
 		this.y = obj.y;
 		this.scaleMass = obj.scaleMass;
+		this.value.reset(this.x, this.y);
 	};
 	
 });

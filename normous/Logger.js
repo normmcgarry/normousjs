@@ -17,19 +17,32 @@ define([
         console.log(str);
     };
     
-    if(!window.console) {
-        window.console = function() {};
-    }
-    if(!window.console.log) {
-        window.console.log = function() {};
-    }
-    else {
-        //Normous.Logger.log = window.console.log;
-        if(console.log.bind) {
-            Normous.Logger.log = console.log.bind(console);
-        }
-        else {
-            Normous.Logger.log = window.console.log;
-        }
-    }
+	if(self.window !== undefined) {
+		if(!window.console) {
+			window.console = function() {};
+		}
+		if(!window.console.log) {
+			window.console.log = function() {};
+		}
+		
+		else {
+			//Normous.Logger.log = window.console.log;
+			if(console.log.bind) {
+				Normous.Logger.log = console.log.bind(console);
+			}
+			else {
+				Normous.Logger.log = window.console.log;
+			}
+		}
+	}
+	else {
+		 Normous.Logger.log = function() {
+			var query = new Normous.Concurrency.WorkerQuery({
+				methodName: 'log',
+				params: arguments
+			});
+			postMessage(query);
+		 };
+	}
+    
 });

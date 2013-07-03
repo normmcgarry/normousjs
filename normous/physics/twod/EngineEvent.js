@@ -20,6 +20,7 @@ define([
 	Normous.Physics.Twod.EngineEvent.COMPOSITE_REMOVED = "compositeRemoved";
 	Normous.Physics.Twod.EngineEvent.GROUP_ADDED = "groupAdded";
 	Normous.Physics.Twod.EngineEvent.GROUP_REMOVED = "groupRemoved";
+	Normous.Physics.Twod.EngineEvent.FORCE_ADDED = "groupAdded";
 	
 	Normous.Physics.Twod.EngineEvent.prototype.element = null;
 	

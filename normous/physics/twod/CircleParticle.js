@@ -54,6 +54,8 @@ define([
 		var obj = this._super('serialize');
 		obj.radius = this.radius;
 		obj.type = Normous.Physics.Twod.CircleParticle.TYPE;
+		
+		return obj;
 	};
 	
 	Normous.Physics.Twod.CircleParticle.prototype.unserialize = function(obj) {

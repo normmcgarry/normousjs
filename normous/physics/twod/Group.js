@@ -32,9 +32,10 @@ define([
 		if(this.isParented) composite.init();
 		this.drawable.addChild(composite);
 		
+		Normous.Physics.Twod.GlobalCollection.addComposite(composite);
 		var e = new Normous.Physics.Twod.EngineEvent({
    			type: Normous.Physics.Twod.EngineEvent.COMPOSITE_ADDED,
-			element: particle
+			element: composite
 		});
 		this.dispatchEvent(e);
 	};
@@ -48,9 +49,10 @@ define([
 		composite.isParented = false;
 		composite.cleanup();
 		
+		Normous.Physics.Twod.GlobalCollection.removeComposite(composite);
 		var e = new Normous.Physics.Twod.EngineEvent({
    			type: Normous.Physics.Twod.EngineEvent.COMPOSITE_REMOVED,
-			element: particle
+			element: composite
 		});
 		this.dispatchEvent(e);
 	};
@@ -215,7 +217,9 @@ define([
 		for(var i = 0; i < obj.collisionList.length; i++) {
 			var g = obj.collisionList[i];
 			var group = Normous.Physics.Twod.GlobalCollection.getGroupById(g);
-			this.collisionList.push(group);
+			if(this.collisionList.indexOf(group) == -1) {
+				this.collisionList.push(group);
+			}
 		}
 	};
 	

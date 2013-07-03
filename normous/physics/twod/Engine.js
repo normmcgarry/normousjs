@@ -29,7 +29,6 @@ define([
 		this.groups = new Array();
 		this.forces = new Array();
 		
-		Normous.Physics.Twod.Engine.damping = 0.89;
 		this.constraintCycles = 1;
 		this.constraintCollisionCycles = 30;
 	};
@@ -59,8 +58,15 @@ define([
 		this.numGroups++;
 		group.isParented = true;
 		this.drawable.addChild(group);
+		group.parent = this;
 		group.init();
 		Normous.Physics.Twod.GlobalCollection.addGroup(group);
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.GROUP_ADDED,
+			element: group
+		});
+		this.dispatchEvent(e);
+		
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.removeGroup = function(group) {
@@ -71,12 +77,22 @@ define([
 		this.groups.splice(index, 1);
 		this.drawable.removeChild(group);
 		group.isParented = false;
+		group.parent = null;
 		this.numGroups--;
 		group.cleanup();
-		Normous.Physics.Twod.GlobalCollection.removeGroup(group);
+		var e = new Normous.Physics.Twod.EngineEvent({
+   			type: Normous.Physics.Twod.EngineEvent.GROUP_REMOVED,
+			element: group
+		});
+		this.dispatchEvent(e);
 	};
 	
 	Normous.Physics.Twod.Engine.prototype.update = function() {
+		if(this.worker) {
+			this.worker.synchronize();
+			return;
+		}
+		
 		this.integrate();
 		for(var j = 0; j < this.constraintCycles; j++) {
 			this.satisfyConstraints(1 / (this.constraintCycles));	
@@ -114,4 +130,26 @@ define([
 			group.paint();
 		}
 	};
+	
+	Normous.Physics.Twod.Engine.prototype.serialize = function() {
+		var obj = {};
+		obj.groups = [];
+		
+		for(var i = 0; i < this.groups.length; i++) {
+			var group = this.groups[i];
+			var g = group.serialize();
+			obj.groups.push(g);
+		}
+		
+		return obj;
+	};
+	
+	Normous.Physics.Twod.Engine.prototype.unserialize = function(obj) {
+		for(var i = 0; i < obj.groups.length; i++) {
+			var g = obj.groups[i];
+			var group = Normous.Physics.Twod.GlobalCollection.getGroupById(g.id);
+			group.unserialize(g);
+		}
+	};
+	
 });

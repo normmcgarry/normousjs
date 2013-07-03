@@ -3,7 +3,7 @@ define([
 ], function() {
 	
 	
-	Normous.namepsace("Normous.Concurrency.WorkerQuery");
+	Normous.namespace("Normous.Concurrency.WorkerQuery");
 	
 	Normous.Concurrency.WorkerQuery = function(config) {
 		this._super(config);
