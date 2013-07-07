@@ -229,6 +229,10 @@ define([
 		for(var i = 0; i < obj.composites.length; i++) {
 			var c = obj.composites[i];
 			var composite = new Normous.Physics.Twod.Composite();
+			if(c.type) {
+				var type = Normous.getObjectByName(c.type);
+				composite = new type();
+			}
 			composite.create(c);
 			this.addComposite(composite);
 		}

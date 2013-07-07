@@ -33,7 +33,6 @@ define([
     Normous.Physics.Twod.SpringConstraint.prototype.scp;
 	Normous.Physics.Twod.SpringConstraint.TYPE = "Normous.Physics.Twod.SpringConstraint";
 
-	
     Normous.Physics.Twod.SpringConstraint.prototype.getAngle = function() {
         return this.getRadian() * Normous.Math.Utils.ONE_EIGHTY_OVER_PI;
     };
@@ -151,7 +150,6 @@ define([
 		}
     };
 
-	
 	
     Normous.Physics.Twod.SpringConstraint.prototype.getDelta = function() {
         return this.p1.position.subtract(this.p2.position);

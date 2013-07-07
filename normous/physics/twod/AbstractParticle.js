@@ -219,7 +219,7 @@ define([
 		obj.elasticity = this.elasticity;
 		obj.position = { x: this.position.x, y: this.position.y };
 		obj.previous = { x: this.previous.x, y: this.previous.y };
-		obj.multisample = this.mutlisample;
+		obj.multisample = this.multisample;
 		obj.firstCollision = this.firstCollision;
 		obj.collidable = this.collidable;
 		obj.forces = [];
@@ -238,14 +238,16 @@ define([
 		this.elasticity = obj.elasticity;
 		this.position.reset(obj.position.x, obj.position.y);
 		this.previous.reset(obj.previous.x, obj.previous.y);
-		this.multisample = obj.mutlisample;
+		this.multisample = obj.multisample;
 		this.firstCollision = obj.firstCollision;
 		this.collidable = obj.collidable;
 		
+		this.clearForces();
 		for(var i = 0; i < obj.forces.length; i++) {
 			var f = obj.forces[i];
 			var force = new Normous.Physics.Twod.Force();
 			force.unserialize(f);
+			this.addForce(force);
 		}
 	};
 	
@@ -256,7 +258,7 @@ define([
 		this.elasticity = obj.elasticity;
 		this.position.reset(obj.position.x, obj.position.y);
 		this.previous.reset(obj.previous.x, obj.previous.y);
-		this.multisample = obj.mutlisample;
+		this.multisample = obj.multisample;
 		this.firstCollision = obj.firstCollision;
 		this.collidable = obj.collidable;
 	};

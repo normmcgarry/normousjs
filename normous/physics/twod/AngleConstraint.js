@@ -45,7 +45,7 @@ define([
         this.p2.position = this.p2.position.rotate(this.p3.position, -diff);
 		*/
 		
-		this.p1.position.irotate(90).iadd(new Normous.Math.Vector2({x:20, y:0}));
+		//this.p1.position.irotate(90).iadd(new Normous.Math.Vector2({x:20, y:0}));
 		
 		
 		if(!this.p1.fixed) {

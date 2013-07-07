@@ -32,6 +32,7 @@ define([
 		this.engine.addEventListener(Normous.Physics.Twod.EngineEvent.GROUP_ADDED, Normous.bind(this.onGroupAdded, this));
 		this.engine.addEventListener(Normous.Physics.Twod.EngineEvent.GROUP_REMOVED, Normous.bind(this.onGroupRemoved, this));
 		this.engine.addEventListener(Normous.Physics.Twod.ForceEvent.FORCE_APPLIED, Normous.bind(this.onForceApplied, this));
+		
 	};
 	
 	Normous.Physics.Twod.EngineSynchronizer.prototype.onMessage = function(e) {
@@ -41,6 +42,10 @@ define([
 		if(Normous.Utils.typeOf(params) !== 'array') params = [params];
 		
 		Normous.Physics.Twod.EngineSynchronizer.prototype[method].apply(this, params);
+	};
+	
+    Normous.Physics.Twod.EngineSynchronizer.prototype.onInitialized = function() {
+		this.synchronize();
 	};
 	
 	Normous.Physics.Twod.EngineSynchronizer.prototype.update = function(data) {
@@ -61,7 +66,7 @@ define([
 				data
 			]
 		});
-		//this.worker.postMessage(queryable);
+		this.worker.postMessage(queryable);
 	};
 	
 	Normous.Physics.Twod.EngineSynchronizer.prototype.addGroup = function(group) {
@@ -199,7 +204,17 @@ define([
 				particle.serialize()
 			]
 		});
-		//this.worker.postMessage(queryable);
+		this.worker.postMessage(queryable);
+	};
+	
+	Normous.Physics.Twod.EngineSynchronizer.prototype.updateElement = function(element) {
+		var queryable = new Normous.Concurrency.WorkerQuery({
+			methodName: 'updateElement',
+			params: [
+				element.serialize()
+			]
+		});
+		this.worker.postMessage(queryable);
 	};
 	
 });

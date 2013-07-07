@@ -14,7 +14,6 @@ define([
 	};
 	
 	Normous.Object.inherit(Normous.Physics.Twod.EngineWorker, Normous.Events.EventDispatcher);
-	Normous.Singleton.createSingleton(Normous.Physics.Twod.EngineWorker);
 	
 	Normous.Physics.Twod.EngineWorker.prototype.engine = null;
 	
@@ -74,7 +73,7 @@ define([
 	Normous.Physics.Twod.EngineWorker.prototype.addComposite = function(parentId, obj) {
 		var collection = Normous.Physics.Twod.GlobalCollection.getById(parentId);
 		var type = Normous.getObjectByName(obj.type);
-		var constraint = new type();
+		var composite = new type();
 		composite.create(obj);
 		collection.addComposite(composite);
 	};
@@ -86,10 +85,20 @@ define([
 	};
 	
 	Normous.Physics.Twod.EngineWorker.prototype.addForce = function(force, particle) {
-		Normous.Logger.log("EngineWorker.addForce()");
+		//Normous.Logger.log("EngineWorker.addForce()");
 		var particle = Normous.Physics.Twod.GlobalCollection.getById(particle.id);
 		var force = new Normous.Physics.Twod.Force(force);
 		particle.addForce(force);
+	};
+	
+	Normous.Physics.Twod.EngineWorker.prototype.updateElement = function(element) {
+		var el = Normous.Physics.Twod.GlobalCollection.getById(element.id);
+		if(el == null) {
+			Normous.Logger.log("EngineWorker.updateElement()");
+			Normous.Logger.log(element);
+			return;
+		}
+		el.unserialize(element);
 	};
 	
 });

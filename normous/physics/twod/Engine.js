@@ -89,7 +89,7 @@ define([
 	
 	Normous.Physics.Twod.Engine.prototype.update = function() {
 		if(this.worker) {
-			this.worker.synchronize();
+			//this.worker.synchronize();
 			return;
 		}
 		
