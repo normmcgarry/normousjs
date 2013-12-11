@@ -3,7 +3,8 @@ define([
 	'normous/concurrency/WorkerQuery',
 	'normous/physics/twod/EngineEvent',
 	'normous/physics/twod/ForceEvent',
-	'normous/Logger'
+	'normous/Logger',
+	'normous/Singleton'
 ], function() {
 	
 	Normous.namespace("Normous.Physics.Twod.EngineSynchronizer");
